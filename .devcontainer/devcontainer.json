@@ -1,0 +1,10 @@
+{
+    "name": "Node Env",
+    "dockerFile": "Dockerfile",
+    // Extension for VSCode
+    "extensions": [
+        "PulkitGangwar.nextjs-snippets",
+        "WakaTime.vscode-wakatime",
+        "streetsidesoftware.code-spell-checker"
+    ]
+}
