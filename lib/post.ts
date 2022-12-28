@@ -6,28 +6,34 @@ import html from "remark-html";
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
+export type Post = {
+    id: string,
+    title: string,
+    date: string,
+    thumbnail: string
+}
+
 // extract info from md
-export function getPostsData() {
+export function getPostsData(): Post[] {
     const fileNames = fs.readdirSync(postsDirectory);
     const allPostsData = fileNames.map((fileName) => {
-        const id = fileName.replace(/\.md$/, "") // fileName(id)
+        const id: string = fileName.replace(/\.md$/, "") // fileName(id)
 
         // extract info
         const fullPath = path.join(postsDirectory, fileName);
         const fileContents = fs.readFileSync(fullPath, "utf-8");
-
         const matterResult = matter(fileContents);
 
         // return id and data
         return {
             id,
-            ...matterResult.data,
+            ...(matterResult.data as { title: string; date: string; thumbnail: string }),
         };
     });
     return allPostsData;
 }
 
-// get path via getStatiPath
+// get path via getStaticPath
 export function getAllPostIds() {
     const fileNames = fs.readdirSync(postsDirectory);
     return fileNames.map((fileName) => {
@@ -40,7 +46,7 @@ export function getAllPostIds() {
 }
 
 // return article info based on id
-export async function getPostData(id) {
+export async function getPostData(id: string) {
     const fullPath = path.join(postsDirectory, `${id}.md`);
     const fileContent = fs.readFileSync(fullPath, "utf-8");
     const matterResult = matter(fileContent);
