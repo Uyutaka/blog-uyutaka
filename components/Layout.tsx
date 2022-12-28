@@ -1,22 +1,25 @@
-import Head from "next/head";
 import styles from "./layout.module.css";
 import utilStyles from "../styles/utils.module.css";
 import Link from 'next/link';
+import React from "react";
+import { useRouter } from "next/router";
 
 export const siteTitle = "Uyutaka's Blog";
-export default function Layout({ children, home }) {
+
+type Props = {
+    children: React.ReactNode
+}
+
+export default function Layout({ children }: Props) {
+    const home = useRouter().pathname === "/" ? true : false;
     return (
         <div className={styles.container}>
-            <Head>
-                <link ref="icon" href="/favicon.ico" />
-            </Head>
-
             <header className={styles.header}>
                 {home ? (
                     <>
                         <img src="/images/profile.png" className={`${utilStyles.borderCircle} ${styles.headerHomeImage}`} />
                         <h1 className={`${utilStyles.heading2x1}`}>
-                            Uyutaka's Blog
+                            Uyutaka&apos;s Blog
                         </h1>
                     </>
                 ) : (
@@ -27,7 +30,7 @@ export default function Layout({ children, home }) {
                         </Link>
 
                         <h1 className={`${utilStyles.heading2x1}`}>
-                            Uyutaka's Blog
+                            Uyutaka&apos;s Blog
                         </h1>
                     </>
                 )}

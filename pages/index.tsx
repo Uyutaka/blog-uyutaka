@@ -1,18 +1,13 @@
 import Head from 'next/head';
-import Image from 'next/image';
-import { Inter } from '@next/font/google';
 import styles from '../styles/Home.module.css';
 import Link from 'next/link';
 import Layout, { siteTitle } from '../components/Layout';
 import utilStyle from "../styles/utils.module.css";
-import { getPostsData } from '../lib/post';
-const inter = Inter({ subsets: ['latin'] })
-
+import { getPostsData, Post } from '../lib/post';
 
 // SSG
 export async function getStaticProps() {
-  const allPostsData = getPostsData();
-
+  const allPostsData: Post[] = getPostsData();
   return {
     props: {
       allPostsData,
@@ -20,13 +15,17 @@ export async function getStaticProps() {
   };
 }
 
-export default function Home({ allPostsData }) {
+type Props = {
+  allPostsData: Post[]
+}
+
+export default function Home({ allPostsData }: Props) {
   return (
     <div>
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <Layout home>
+      <Layout>
         <section className={utilStyle.headingMd}><p>testtest..... explaination</p></section>
         <div className={styles.grid}>
           {allPostsData.map(({ id, title, date, thumbnail }) => (
