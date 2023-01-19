@@ -16,21 +16,34 @@ export type Post = {
 // extract info from md
 export function getPostsData(): Post[] {
     const fileNames = fs.readdirSync(postsDirectory);
-    const allPostsData = fileNames.map((fileName) => {
+    var allPostsData = fileNames.map((fileName) => {
         const id: string = fileName.replace(/\.md$/, "") // fileName(id)
 
         // extract info
         const fullPath = path.join(postsDirectory, fileName);
         const fileContents = fs.readFileSync(fullPath, "utf-8");
         const matterResult = matter(fileContents);
-
-        // return id and data
         return {
             id,
             ...(matterResult.data as { title: string; date: string; thumbnail: string }),
         };
     });
-    return allPostsData;
+
+    // Remove post's title starting with [WIP]
+    allPostsData = allPostsData.filter((post) => {
+        return !post?.title.includes("[WIP]");
+    })
+
+    // Sort by date
+    allPostsData.sort((a, b) => {
+        if (a!.date < b!.date) {
+            return 1;
+        } else {
+            return -1;
+        }
+    });
+
+    return allPostsData as Post[];
 }
 
 // get path via getStaticPath
