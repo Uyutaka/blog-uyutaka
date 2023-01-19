@@ -4,6 +4,17 @@ date: "2023-01-19"
 thumbnail: "/images/thumbnail01.jpg"
 ---
 
+
+## Why VPS?
+全てコントロールしたいから
+## Why docker?
+- 開発環境と本番環境の差異を減らしたいから
+- VPSの移動を簡単にしたいから
+
+## Next Action
+- ブログデータのpush後はCI/CDパイプラインで更新
+- セキュリティグループ等の設定
+
 ### コマンド
 certificate更新方法
 - 証明書の更新
@@ -14,6 +25,14 @@ docker compose -f <absolute path to folder>/docker-compose-le.yaml up
 - 更新した証明書をnginxで使う
 ```
 docker exec -it nginx-service nginx -s reload
+```
+
+- Blog更新後
+```
+
+docker compose down blog
+
+docker compose up  --build blog -d
 ```
 
 ### 参考URL
