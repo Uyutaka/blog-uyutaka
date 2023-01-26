@@ -29,10 +29,7 @@ docker exec -it nginx-service nginx -s reload
 
 - Blog更新後
 ```
-
-docker compose down blog
-
-docker compose up  --build blog -d
+docker compose up  --force-recreate blog -d
 ```
 
 ### 参考URL
