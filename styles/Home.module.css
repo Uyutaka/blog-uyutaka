@@ -14,7 +14,7 @@
 
 .thumbnailImage {
   width: 950px;
-  height: 400px;
+  height: auto;
   margin-bottom: 20px;
   box-shadow: 4px 5px 12px black;
   transition: all 0.3s;
