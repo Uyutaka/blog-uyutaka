@@ -1,27 +1,63 @@
 ---
-title: "「A tour of go」前半の学習メモ"
-date: "2023-01-25"
+title: "[Udemy]Building Modern Web Application with Go (Golang)を受講した"
+date: "2023-02-27"
 thumbnail: "/images/gopher.jpg"
 ---
+[uyutaka](https://twitter.com/uE8B18A)です。
 
-# [Udemy] Building Modern Web Application with Go (Golang)
+GoでWeb アプリ開発をできるようになりたかったためUdemyの[Building Modern Web Application with Go (Golang)](https://www.udemy.com/course/building-modern-web-applications-with-go/)を受講した。
+テストコードの記載方法も含めて解説があり評価も高かったのでこちらを選んだ。一部はtour of goと重複などしていたためスキップした。Section 15以降は同じ講師の別講義でカバーするため受講をやめた。
 
-# Index
-[背景](#背景)
 
-# 背景
+# 講座の内容
+```
+- Section 1: Introduction
+- Section 2: Overview of the Go Language (一部スキップ)
+- Section 3: Building a Basic Web Application
+- Section 4: Improved Routing & Middleware
+- Section 5: State Management with Sessions
+- Section 6: Choosing a Project, and Working With Forms
+- Section 7: JavaScript & CSS (スキップ)
+- Section 8: Converting our HTML to Go Templates, and creating handlers (スキップ)
+- Section 9: Writing Tests
+- Section 10: Improved Error Handling
+- Section 11: Persisting Data with PostgreSQL
+- Section 12: Designing the Database Structure
+- Section 13: Connecting our Application to the Database
+- Section 14: Updating our tests
+- Section 15: Sending Mail using Go (ここ以降スキップ)
+- Section 16: Authentication
+- Section 17: Setting up secure back end administration
+- Section 18: Updating our applications to accept command line parameters
+- Section 19: Deploying Our Application to a Server
+- Section 20: Finishing Touches
+- Section 21: Where to go next
+```
 
-GolangでのWeb アプリ開発をしたかった。
 
-テスト付き。テストの書き方も学びたかったから。
 
-# 目標
 
-GolangでWebアプリ開発が出来るようになるための学習
+# 進め方
+[レポジトリ](https://github.com/Uyutaka/bookings-go)を作って基本的には写経を行った。[コミットメッセージ](https://github.com/Uyutaka/bookings-go/commits/main)には対象の動画タイトルを入れた。
 
-# Section 2: Overview of the Go Language
+独自に工夫したのは、ローカル環境を汚したくなかったので、コンテナ内で全て開発出来るようにした([設定ファイル](https://github.com/Uyutaka/bookings-go/tree/main/.devcontainer))。
 
-## 16. Packages
+# 全体の感想
+## 良かった点
+- テストコードを含め解説があること
+- 割と丁寧に一つづつ解説しているところ
+
+## イマイチだった点
+- Go templateを使っているところ
+- 一部、動画ごとにはコードが公開されていないところ。講師のレポジトリは[こちら](https://github.com/tsawler/bookings-udemy)
+
+これら点を解消するため同じ講師の[別講座](https://www.udemy.com/course/working-with-vue-3-and-go/)を受講することにした。
+
+# メモ
+
+## Section 2: Overview of the Go Language
+
+### 16. Packages
 
 Githubとかにpushする可能性あるならpackage名はユニークなのをつけたほうが良い
 
@@ -29,7 +65,7 @@ Githubとかにpushする可能性あるならpackage名はユニークなのを
 $ go mod init github.com/xxx/xxx
 ```
 
-## 17. Channels
+### 17. Channels
 
 channelを作った後はclose()するのが良い。他のパッケージとのやり取りの際に使う
 
@@ -41,10 +77,9 @@ func main(){
 }
 ```
 
-## 18. Reading and Writing JSON
+### 18. Reading and Writing JSON
 
  
-
 標準パッケージ encoding/json で実現できる。型がきっちりしているにもかかわらずjsonの扱いが容易で好感をもてた。
 
 Marshalという単語知らなかった。
@@ -98,7 +133,7 @@ func main() {
 }
 ```
 
-## Writing Testing in Go
+### 19. Writing Testing in Go
 
 標準ツールでtestケース作成、実行、カバレッジ表示(HTMLでも!)出来る。とても便利。下記は割り算をする関数のユニットテスト記述例。
 
@@ -186,13 +221,9 @@ coverage: 50.0% of statements
 ok      go_prac 0.002s
 ```
 
-![Untitled](%5BUdemy%5D%20Building%20Modern%20Web%20Application%20with%20Go%20(G%203d3d4493414a4288b739791fa4bcbd0c/Untitled.png)
+## Section3: Building a Basic Web Application
 
-↑生成されたHTML
-
-# Section3: Building a Basic Web Application
-
-## 20. How web applications work: the request/response lifecycle
+### 20. How web applications work: the request/response lifecycle
 
 標準パッケージだけでHello Worldを返すAPIは下記で出来る。
 
@@ -220,7 +251,7 @@ func main() {
 }
 ```
 
-## 25. Serving HTML Templates
+### 25. Serving HTML Templates
 
 ********"text/template”を使ってhtmlファイルをパース、レンダーさせる。********[https://pkg.go.dev/text/template#hdr-Examples](https://pkg.go.dev/text/template#hdr-Examples)
 
@@ -239,7 +270,7 @@ func renderTemlpate(w http.ResponseWriter, tmpl string) {
 }
 ```
 
-## 28. Enabling Go Modules and refactoring our code to use packages
+### 28. Enabling Go Modules and refactoring our code to use packages
 
 最初にすることmodule作成
 
@@ -333,7 +364,7 @@ func RenderTemlpate(w http.ResponseWriter, tmpl string) {
 }
 ```
 
-## 30. Building a simple template cache
+### 30. Building a simple template cache
 
 現状、毎回ストレージにアクセスしてレンダーしている。シンプルなキャッシュは下記
 
@@ -381,27 +412,15 @@ func createTemplateCache(t string) error {
 }
 ```
 
-In handlers.go
+## Section 4: Improved Routing & Middleware
 
-Repository
-
-- AppConfig field
-- Home // Home返す
-- About // About 返す
-
-Render
-
-- App Config使う
-
-# Section 4: Improved Routing & Middleware
-
-## 38. Using pat for routing
+### 38. Using pat for routing
 
 今まではmain.goにルーティングがあった。切り出し。
 
 外部ライブラリ[pat](https://github.com/bmizerany/pat)を利用　結構シンプルで標準ライブラリのみ利用している。
 
-## 39. Using chi for routing
+### 39. Using chi for routing
 
 外部ライブラリ[chi](https://github.com/go-chi/chi)を利用
 
@@ -413,8 +432,72 @@ loggerなどのmiddlewareも豊富で自作も可能
 
 go mod tidy
 
-## 40. Developing our own middleware
-
-s
+### 40. Developing our own middleware
 
 CSRF [https://github.com/justinas/nosurf](https://github.com/justinas/nosurf) 用ライブラリ
+
+## Section 5: State Management with Sessions
+
+### 41. Installing and setting up a sessions package
+
+[セッション管理ライブラリ](https://github.com/alexedwards/scs)
+
+## Section 8: Converting our HTML to Go Templates, an
+
+### 61. Creating handlers for our forms & adding CSRF Protection
+
+CSRF トークンをrender時にわたすようにRenderTemplateを修正
+
+### 62. Creating a handler that return JSON
+
+GETのAPI作成　ハードコードしたjsonを返す
+
+### 69. Server Side form validation 4
+
+[https://github.com/asaskevich/govalidator](https://github.com/asaskevich/govalidator) emailのバリデーション用に利用
+
+## Section 9: Writing Tests
+
+internal/handlers/setup_test.go, internal/render/setup_test.goの重複が気になる。main.goからのコピペが多いことが気になっている。
+
+## Section 11: Persisting Data with PostgreSQL
+
+Container化するために[https://github.com/microsoft/vscode-dev-containers/tree/main/containers/go-postgres](https://github.com/microsoft/vscode-dev-containers/tree/main/containers/go-postgres)を参考にした。
+
+pgadminのコンテナ　[https://towardsdatascience.com/how-to-run-postgresql-and-pgadmin-using-docker-3a6a8ae918b5](https://towardsdatascience.com/how-to-run-postgresql-and-pgadmin-using-docker-3a6a8ae918b5)　
+
+```bash
+# コンテナのIPアドレス確認方法
+docker inspect {container_id} | grep IPAddress
+```
+
+## Section 12: Designing the Database Structure
+
+講師は有料の[https://www.malcolmhardie.com/sqleditor/](https://www.malcolmhardie.com/sqleditor/)　を使ってER作成していた。
+
+CLIツールSoda CLI [https://gobuffalo.io/documentation/database/soda/](https://gobuffalo.io/documentation/database/soda/) を使ってmigrateする。
+
+### 92. Creating the users table using migrations
+
+./database.ymlにアクセス情報を記述
+
+```bash
+# ./migrations にup, downのマイグレーションファイルを作成
+soda generate fizz CreateUserTable 
+# ./migrationsを基にmigrate
+soda migrate
+```
+
+## Section 13: Connecting our Application to the Database
+
+postgresへのドライバーとして　[https://github.com/jackc/pgx](https://github.com/jackc/pgx)　を利用
+
+MSのGo & Postgresのdevcontainerのサンプルでは　[https://github.com/lib/pq](https://github.com/lib/pq)　を利用していた。
+
+### 98. How to connect a Go application to a database
+
+### 104. Setting up database functions: inserting a reservation
+
+Goのtime変換はユニーク
+
+[https://www.pauladamsmith.com/blog/2011/05/go_time.html](https://www.pauladamsmith.com/blog/2011/05/go_time.html)

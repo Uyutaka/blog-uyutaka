@@ -3,8 +3,8 @@ title: "「A tour of go」前半の学習メモ"
 date: "2023-01-25"
 thumbnail: "/images/gopher.jpg"
 ---
+[uyutaka](https://twitter.com/uE8B18A)です。
 
-ポストのiconは[ここ](https://github.com/egonelbre/gophers)から
 
 
 ## 背景
