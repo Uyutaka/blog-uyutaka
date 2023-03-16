@@ -32,6 +32,12 @@ docker exec -it nginx-service nginx -s reload
 docker compose up  --force-recreate blog -d
 ```
 
+- SSL更新
+```
+docker compose -f docker-compose-le.yaml up
+docker exec -it nginx-service nginx -s reload
+```
+
 ### 参考URL
 - [Simplest HTTPS setup: Nginx Reverse Proxy+ Letsencrypt+ AWS Cloud + Docker](https://leangaurav.medium.com/simplest-https-setup-nginx-reverse-proxy-letsencrypt-ssl-certificate-aws-cloud-docker-4b74569b3c61)
 - [↑のGitHubレポジトリ](https://github.com/leangaurav/nginx_https_docker)
