@@ -3,6 +3,7 @@ import fs from "fs";
 import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
+import remarkPrism from 'remark-prism'
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
@@ -64,7 +65,10 @@ export async function getPostData(id: string) {
     const fileContent = fs.readFileSync(fullPath, "utf-8");
     const matterResult = matter(fileContent);
 
-    const blogContent = await remark().use(html).process(matterResult.content);
+    const blogContent = await remark()
+        .use(html, { sanitize: false })
+        .use(remarkPrism, { plugins: ["line-numbers"] })
+        .process(matterResult.content);
     const blogContentHTML = blogContent.toString();
 
     return {
