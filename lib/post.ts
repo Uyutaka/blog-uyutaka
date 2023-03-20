@@ -1,9 +1,13 @@
 import path from "path";
 import fs from "fs";
 import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
 import remarkPrism from 'remark-prism'
+import remarkToc from 'remark-toc'
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import rehypeStringify from "rehype-stringify";
+import rehypeSlug from "rehype-slug";
+import { unified } from 'unified'
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
@@ -64,12 +68,18 @@ export async function getPostData(id: string) {
     const fullPath = path.join(postsDirectory, `${id}.md`);
     const fileContent = fs.readFileSync(fullPath, "utf-8");
     const matterResult = matter(fileContent);
-
-    const blogContent = await remark()
-        .use(html, { sanitize: false })
+    const result = await unified()
+        .use(remarkToc)
+        .use(remarkParse)
         .use(remarkPrism, { plugins: ["line-numbers"] })
+        .use(remarkRehype)
+        // .use(rehypeHighlight)  => use remarkPrism instead of rehypeHighlight
+        .use(rehypeStringify)
+        .use(rehypeSlug)
         .process(matterResult.content);
-    const blogContentHTML = blogContent.toString();
+    const blogContentHTML = result.toString();
+
+
 
     return {
         id,

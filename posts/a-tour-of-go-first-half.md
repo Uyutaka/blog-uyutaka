@@ -6,6 +6,7 @@ thumbnail: "/images/gopher.jpg"
 [uyutaka](https://twitter.com/uE8B18A)です。
 
 
+## Table of contents
 
 ## 背景
 Goを勉強したいと思って色々探した。[公式のチュートリアル](https://go-tour-jp.appspot.com/list)が良さそうだったのでこれを使って学習した。
