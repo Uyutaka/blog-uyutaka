@@ -3,8 +3,13 @@
     "dockerFile": "Dockerfile",
     // Extension for VSCode
     "extensions": [
-        "PulkitGangwar.nextjs-snippets",
+        // common
         "WakaTime.vscode-wakatime",
-        "streetsidesoftware.code-spell-checker"
+        "leodevbro.blockman",
+        "streetsidesoftware.code-spell-checker",
+        // JS
+        "bradlc.vscode-tailwindcss",
+        "dbaeumer.vscode-eslint",
+        "ms-vscode.vscode-typescript-next",
     ]
 }
