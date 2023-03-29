@@ -1,47 +1,56 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-import Link from 'next/link';
-import Layout, { siteTitle } from '../components/Layout';
-import utilStyle from "../styles/utils.module.css";
-import { getPostsData, Post } from '../lib/post';
-
-// SSG
-export async function getStaticProps() {
-  const allPostsData: Post[] = getPostsData();
-  return {
-    props: {
-      allPostsData,
-    },
-  };
-}
+import Container from '../components/container'
+import MoreStories from '../components/more-stories'
+import HeroPost from '../components/hero-post'
+import Intro from '../components/intro'
+import Layout from '../components/layout'
+import { getAllPosts } from '../lib/api'
+import Head from 'next/head'
+import { CMS_NAME } from '../lib/constants'
+import Post from '../interfaces/post'
 
 type Props = {
-  allPostsData: Post[]
+  allPosts: Post[]
 }
 
-export default function Home({ allPostsData }: Props) {
+export default function Index({ allPosts }: Props) {
+  const heroPost = allPosts[0]
+  const morePosts = allPosts.slice(1)
   return (
-    <div>
-      <Head>
-        <title>{siteTitle}</title>
-      </Head>
+    <>
       <Layout>
-        <section className={utilStyle.headingMd}><p>testtest..... explaination</p></section>
-        <div className={styles.grid}>
-          {allPostsData.map(({ id, title, date, thumbnail }) => (
-            <article key={id}>
-              <Link href={`/posts/${id}`}>
-                <img src={`${thumbnail}`} className={styles.thumbnailImage} />
-              </Link>
-              <Link href={`/posts/${id}`} className={utilStyle.boldText}>
-                {title}
-              </Link>
-              <br />
-              <small className={utilStyle.lightText}>{date}</small>
-            </article>
-          ))}
-        </div>
+        <Head>
+          <title>{`Next.js Blog Example with ${CMS_NAME}`}</title>
+        </Head>
+        <Container>
+          <Intro />
+          {heroPost && (
+            <HeroPost
+              title={heroPost.title}
+              coverImage={heroPost.coverImage}
+              date={heroPost.date}
+              author={heroPost.author}
+              slug={heroPost.slug}
+              excerpt={heroPost.excerpt}
+            />
+          )}
+          {morePosts.length > 0 && <MoreStories posts={morePosts} />}
+        </Container>
       </Layout>
-    </div>
+    </>
   )
+}
+
+export const getStaticProps = async () => {
+  const allPosts = getAllPosts([
+    'title',
+    'date',
+    'slug',
+    'author',
+    'coverImage',
+    'excerpt',
+  ])
+
+  return {
+    props: { allPosts },
+  }
 }
